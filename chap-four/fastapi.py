@@ -5,9 +5,9 @@ import os
 # Initialize FastAPI app
 app = FastAPI()
 
-# Setup Langchain with GPT-3.5
+# Setup Langchain with GPT-3.5, alter the temperature and max_tokens for different results
 llm = OpenAI(
-    model_name='text-davinci-003',
+    model_name='gpt-3.5-turbo-instruct',
     temperature=0.7,
     max_tokens=256,
     api_key=os.environ['OPENAI_API_KEY']
