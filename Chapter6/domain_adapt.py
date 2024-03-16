@@ -12,12 +12,17 @@ class DomainAdaptation:
         self.model_path = model_path
         self.model = AutoModelForCausalLM.from_pretrained(self.model_path)
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
-        self.adapter_config = self.configure_adapter()
+        self.adapter_config = self.configure_peft_adapter()
         self.metric = load_metric("accuracy")
 
-    def configure_adapter(self):
+    def configure_peft_adapter(self, verbose=True):
         """Configure the PEFT adapter."""
-        self.model.add_adapter(AdaLoraConfig(target_r=16))
+        adapter_config = AdaLoraConfig(target_r=16)
+        self.model.add_adapter(adapter_config)
+        self.model = get_peft_model(self.model, adapter_config)
+        if verbose:
+            self.model.print_trainable_parameters()
+
 
     def compute_metrics(self, eval_pred):
         """Compute the accuracy of the model on the test set."""
