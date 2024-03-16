@@ -15,7 +15,7 @@ class DomainAdaptation:
         self.adapter_config = self.configure_peft_adapter()
         self.metric = load_metric("accuracy")
 
-    def configure_peft_adapter(self, verbose=True):
+    def configure_peft_adapter(self, verbose=True) -> None:
         """Configure the PEFT adapter."""
         adapter_config = AdaLoraConfig(target_r=16)
         self.model.add_adapter(adapter_config)
@@ -23,19 +23,30 @@ class DomainAdaptation:
         if verbose:
             self.model.print_trainable_parameters()
 
-    def compute_metrics(self, eval_pred):
+    def compute_metrics(self, eval_pred) -> dict:
         """Compute the accuracy of the model on the test set."""
         logits, labels = eval_pred
         predictions = np.argmax(logits, axis=-1)
         return self.metric.compute(predictions=predictions, references=labels)
 
-    def preprocess_function(self, examples):
+    def preprocess_function(self, examples) -> dict:
         """Preprocess the input data."""
         inputs = self.tokenizer(
             examples["text"], truncation=True, padding="max_length", max_length=512
         )
         inputs["labels"] = inputs["input_ids"].copy()
         return inputs
+
+    def predict(self, prompt) -> str:
+        # Encode the prompt and generate text
+        inputs = self.tokenizer(prompt, return_tensors="pt")
+        output = self.model.generate(
+            **inputs, max_length=50
+        )  # Adjust max_length as needed
+
+        # Decode and print the generated text
+        generated_text = self.tokenizer.decode(output[0], skip_special_tokens=True)
+        return generated_text
 
 
 if __name__ == "__main__":
@@ -53,7 +64,7 @@ if __name__ == "__main__":
     training_args = TrainingArguments(
         output_dir="./model_output",
         per_device_train_batch_size=2,  # Adjust batch size according to your GPU
-        num_train_epochs=5,
+        num_train_epochs=2,
         save_steps=1000,
         save_total_limit=2,
         prediction_loss_only=True,
@@ -77,3 +88,10 @@ if __name__ == "__main__":
 
     # Start training
     trainer.train()
+
+    # Save the trained model
+    da.model.save_pretrained("./proxima_da_model")
+
+    # Generate text using the trained model
+    result = da.model.predict("The Proxima Passkey is")
+    print(result)
