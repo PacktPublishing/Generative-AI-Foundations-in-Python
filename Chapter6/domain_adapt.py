@@ -23,7 +23,6 @@ class DomainAdaptation:
         if verbose:
             self.model.print_trainable_parameters()
 
-
     def compute_metrics(self, eval_pred):
         """Compute the accuracy of the model on the test set."""
         logits, labels = eval_pred
