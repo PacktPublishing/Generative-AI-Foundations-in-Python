@@ -1,0 +1,14 @@
+fastapi
+langchain[llms]
+openai
+pandas
+Pillow
+torch
+rouge
+sentence-transformers
+sumeval
+torch
+transformers
+accelerate
+nltk
+huggingface_hub
