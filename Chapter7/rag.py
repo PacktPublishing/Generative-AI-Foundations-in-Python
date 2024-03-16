@@ -9,6 +9,7 @@ from llama_index.core import (
 )
 
 from llama_index.vector_stores.faiss import FaissVectorStore
+
 # from IPython.display import Markdown, display
 
 if __name__ == "__main__":
@@ -20,7 +21,7 @@ if __name__ == "__main__":
     documents = SimpleDirectoryReader("products/").load_data()
 
     # load faiss index
-    d = 1536 # dimension of the vectors
+    d = 1536  # dimension of the vectors
     faiss_index = faiss.IndexFlatL2(d)
 
     # create vector store
@@ -28,9 +29,7 @@ if __name__ == "__main__":
     # initialize storage context
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
     # create index
-    index = VectorStoreIndex.from_documents(
-        documents, storage_context=storage_context
-    )
+    index = VectorStoreIndex.from_documents(documents, storage_context=storage_context)
 
     # query the index
     query_engine = index.as_query_engine()
