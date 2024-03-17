@@ -22,7 +22,7 @@ class TaskSpecificFineTuning:
             self.model.print_trainable_parameters()
 
     def ask_question(self, question, context, device="mps"):
-        # Tokenize the question and context
+        """tokenize the input and predict the answer."""
         inputs = self.tokenizer.encode_plus(
             question, context, add_special_tokens=True, return_tensors="pt"
         )
@@ -116,15 +116,20 @@ class StylesprintDataset(Dataset):
 
 if __name__ == "__main__":
     import sys
+    import os
 
-    ts = TaskSpecificFineTuning()
+    # Instruction:
+    # Run the script with the following command: python task_specific.py
+    # To load the model from a checkpoint, run: python task_specific.py True
+    # Ensure to have the HF_TOKEN environment variable set if using models that require authentication
+    # Models must be compatible with AutoModelForQuestionAnswering (e.g, t5, flan-t5-small, flan-t5-base, etc.)
+
+    ts = TaskSpecificFineTuning("google/flan-t5-base")
     load_from_checkpoint = sys.argv[1] if len(sys.argv) > 1 else False
 
     if load_from_checkpoint:
-        # TODO
-        # model_path = "./stylesprint_qa_model/"
-        # ts.model = ts.model.load_adapter("./stylesprint_qa_model/adapter_config", adapter_name="ADALORA", is_trainable=False)
-        pass
+        model_path = "./stylesprint_qa_model/"
+        ts.model = ts.model.from_pretrained(ts.model, model_path)
     else:
         demo_data = []
         with open("qa_demo.json", "r") as f:
@@ -161,7 +166,7 @@ if __name__ == "__main__":
         ts.model.save_pretrained("./stylesprint_qa_model")
 
     # Evaluate the model
-    question = "What is the return policy for online purchases?"
+    question = "Can I exchange an online purchases?"
 
     # Imagine: Top result returned from search integration
     context = """
@@ -172,4 +177,5 @@ if __name__ == "__main__":
     answer = ts.ask_question(
         question, context, device="mps"
     )  # mps for mac, cpu for windows, gpu for gpu on either
-    print(answer)
+    print("Question:", question)
+    print("Answer:", answer)
