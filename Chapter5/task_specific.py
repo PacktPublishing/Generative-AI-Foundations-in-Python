@@ -179,3 +179,9 @@ if __name__ == "__main__":
     )  # mps for mac, cpu for windows, gpu for gpu on either
     print("Question:", question)
     print("Answer:", answer)
+
+    """
+    Output from a successful run:
+    Question: Can I exchange an online purchases?
+    Answer: exchange, items must be in their original, unworn condition with all tags attached. Footwear returns must include the original shoebox in its original condition. We request that you provide 
+    """
