@@ -3,3 +3,8 @@ __pycache__/
 .DS_Store
 
 base/
+
+# do not upload the following files
+stylesprint_qa_model/
+results/
+model_output/
