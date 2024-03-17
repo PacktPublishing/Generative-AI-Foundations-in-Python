@@ -12,7 +12,7 @@ class DomainAdaptation:
         self.model_path = model_path
         self.model = AutoModelForCausalLM.from_pretrained(self.model_path)
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
-        self.adapter_config = self.configure_peft_adapter()
+        self.configure_peft_adapter()
         self.metric = load_metric("accuracy")
 
     def configure_peft_adapter(self, verbose=True) -> None:
