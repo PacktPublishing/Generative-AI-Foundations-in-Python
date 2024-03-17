@@ -18,6 +18,11 @@ from llama_index.core.prompts.prompt_type import PromptType
 if __name__ == "__main__":
     import os
 
+    # Instructions:
+    # Run the script with the following command: python constrained_rag.py
+    # Ensure to have the products directory in the same directory as this script
+    # Ensure to have the OPENAI_API_KEY environment variable set
+
     assert os.getenv("OPENAI_API_KEY") is not None, "Please set OPENAI_API_KEY"
 
     # load document vectors

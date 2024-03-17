@@ -50,6 +50,10 @@ class DomainAdaptation:
 
 
 if __name__ == "__main__":
+    # Instruction:
+    # Run the script with the following command: python domain_adapt.py
+    # Ensure to have the train.txt and test.txt files in the same directory as this script
+    
     da = DomainAdaptation()
 
     # Load and preprocess your domain-specific dataset
