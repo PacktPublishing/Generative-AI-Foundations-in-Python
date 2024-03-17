@@ -116,7 +116,6 @@ class StylesprintDataset(Dataset):
 
 if __name__ == "__main__":
     import sys
-    import os
 
     # Instruction:
     # Run the script with the following command: python task_specific.py
