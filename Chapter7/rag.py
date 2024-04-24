@@ -1,13 +1,7 @@
 # !pip install llama-index faiss-cpu llama-index-vector-stores-faiss
 
 import faiss
-
-from llama_index.core import (
-    SimpleDirectoryReader,
-    VectorStoreIndex,
-    StorageContext,
-)
-
+from llama_index.core import SimpleDirectoryReader, StorageContext, VectorStoreIndex
 from llama_index.vector_stores.faiss import FaissVectorStore
 
 # from IPython.display import Markdown, display
@@ -41,4 +35,3 @@ if __name__ == "__main__":
     response = query_engine.query("describe summer dress with price")
 
     print(response)
-    # display(Markdown(f"<b>{response}</b>"))

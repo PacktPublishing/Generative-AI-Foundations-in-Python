@@ -2,7 +2,7 @@ from typing import List, Tuple
 from PIL import Image
 from transformers import CLIPProcessor, CLIPModel
 import torch
-from util import render_images, load_pil_images, DEMO_PROMPTS
+from util import render_images, render_image, load_pil_images, DEMO_PROMPTS
 
 
 def load_model_and_processor(model_name: str) -> Tuple[CLIPModel, CLIPProcessor]:
@@ -42,7 +42,7 @@ def get_probabilities(model: CLIPModel, inputs: dict) -> torch.Tensor:
 
 
 def display_images_with_scores(
-    images: List[Image.Image], scores: torch.Tensor, notebook=False
+    images: List[Image.Image], scores: torch.Tensor, notebook:bool=False, names: list=[]
 ) -> None:
     """
     Displays the images alongside their scores.
@@ -52,9 +52,10 @@ def display_images_with_scores(
 
     # Display the images and scores
     for i, image in enumerate(images):
-        print(f"Image {i + 1}:")
+        name = "Image" if not names else names[i]
+        print(f"{name} {i + 1}:")
         if notebook:
-            render_images(image)
+            render_image(image)
         print(f"Scores: {scores[i, :].detach().numpy()}")
         print()
 
