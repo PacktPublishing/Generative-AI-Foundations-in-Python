@@ -1,2 +1,1 @@
-# Python-Generative-AI
-Python Generative AI, published by Packt
+# Generative AI Foundations in Python
