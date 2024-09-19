@@ -1,5 +1,5 @@
 # minimal production requirements
 fastapi==0.65.2
 torch==1.13.1
-transformers==4.9.2
+transformers==4.38.0
 uvicorn==0.14.0
